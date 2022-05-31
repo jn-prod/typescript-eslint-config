@@ -37,7 +37,7 @@ module.exports = {
 }
 ```
 
-## setting
+## Setting
 
 You can pass a setting object to activate typescript and/or jest. To do this update .eslintrc.js by passing this setting object to eslintrc function
 
@@ -47,4 +47,16 @@ You can pass a setting object to activate typescript and/or jest. To do this upd
 const eslintConfig = eslintrc({ts: true, jest: true});
 
 // ...
+```
+
+## Using
+
+You can add lint script to your project:
+```json
+"lint": "run-s lint:es lint:prettier",
+"lint:fix": "run-s lint:es:fix lint:prettier:fix",
+"lint:es": "eslint src/**/*.{js,ts,tsx}",
+"lint:es:fix": "eslint src/**/*.{js,ts,tsx} --fix",
+"lint:prettier": "prettier --check **/*.{css,scss,html,mdx,json}",
+"lint:prettier:fix": "prettier --write **/*.{css,scss,html,mdx,json}",
 ```

@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = ({ ts = false, jest = false } = {}) => {
   const config = {
     root: true,
@@ -27,25 +29,25 @@ module.exports = ({ ts = false, jest = false } = {}) => {
     config.parserOptions = {
       ...config.parserOptions,
       tsconfigRootDir: __dirname,
-      project: './tsconfig.json',
+      project: path.resolve(process.cwd(), './tsconfig.json'),
     };
     config.plugins = [...config.plugins, '@typescript-eslint'];
-    (config.rules = {
+    config.rules = {
       ...config.rules,
       '@typescript-eslint/explicit-function-return-type': ['error', { allowTypedFunctionExpressions: true }],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
-    }),
-      (config.settings = {
-        ...config.settings,
-        'import/parsers': {
-          '@typescript-eslint/parser': ['.ts', '.tsx'],
+    };
+    config.settings = {
+      ...config.settings,
+      'import/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
+      },
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
         },
-        'import/resolver': {
-          typescript: {
-            alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
-          },
-        },
-      });
+      },
+    };
   }
 
   // jest
